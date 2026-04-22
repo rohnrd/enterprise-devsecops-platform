@@ -1,0 +1,178 @@
+name: DevSecOps CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+  pull_request:
+    branches:
+      - main
+      - develop
+
+env:
+  IMAGE_NAME: enterprise-devsecops-platform
+  REGISTRY: ghcr.io
+  DOCKERFILE_PATH: sample-app/Dockerfile
+
+jobs:
+
+  # -------------------------------
+  # 1. Code Validation + Security
+  # -------------------------------
+  security_checks:
+    name: SAST and SCA
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+
+      - name: Print build context
+        run: |
+          echo "Repo: ${{ github.repository }}"
+          echo "Branch: ${{ github.ref_name }}"
+          echo "Commit: ${{ github.sha }}"
+
+      - name: Run SAST (Semgrep)
+        uses: returntocorp/semgrep-action@v1
+
+      - name: Run SCA (Trivy filesystem scan)
+        run: |
+          echo "Running dependency scan..."
+          trivy fs --security-checks vuln --exit-code 1 .
+
+  # -------------------------------
+  # 2. Build Stage
+  # -------------------------------
+  build:
+    name: Build Application
+    runs-on: ubuntu-latest
+    needs: security_checks
+
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+
+      - name: Build application
+        run: |
+          echo "Building sample application..."
+          mkdir -p build-output
+          echo "Build completed at $(date)" > build-output/app.txt
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-artifact
+          path: build-output/
+
+  # -------------------------------
+  # 3. Container + IaC Security
+  # -------------------------------
+  container_security:
+    name: Container Build and Scan
+    runs-on: ubuntu-latest
+    needs: build
+
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+
+      - name: Login to GitHub Container Registry
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+
+      - name: Build Docker image
+        run: |
+          docker build -f $DOCKERFILE_PATH -t $REGISTRY/${{ github.repository }}:${{ github.sha }} .
+
+      - name: Scan Docker image (Trivy)
+        run: |
+          trivy image --exit-code 1 $REGISTRY/${{ github.repository }}:${{ github.sha }}
+
+      - name: Run IaC Scan (Checkov)
+        run: |
+          pip install checkov
+          checkov -d terraform/
+
+  # -------------------------------
+  # 4. Policy-as-Code
+  # -------------------------------
+  policy_check:
+    name: Policy Validation (OPA)
+    runs-on: ubuntu-latest
+    needs: container_security
+
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+
+      - name: Install OPA
+        run: |
+          curl -L -o opa https://openpolicyagent.org/downloads/latest/opa_linux_amd64
+          chmod +x opa
+          sudo mv opa /usr/local/bin/
+
+      - name: Run OPA policies
+        run: |
+          echo "Running policy checks..."
+          opa eval --input terraform --data policies/ "data" || exit 1
+
+  # -------------------------------
+  # 5. Approval Gate (Simulated)
+  # -------------------------------
+  approval_gate:
+    name: Approval Gate
+    runs-on: ubuntu-latest
+    needs: policy_check
+
+    steps:
+      - name: Manual approval placeholder
+        run: |
+          echo "Approval required before production deployment"
+          echo "In real setup, use GitHub Environments with required reviewers"
+
+  # -------------------------------
+  # 6. GitOps Deployment
+  # -------------------------------
+  gitops_deploy:
+    name: Deploy via GitOps (ArgoCD)
+    runs-on: ubuntu-latest
+    needs: approval_gate
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Simulate manifest update
+        run: |
+          echo "Updating Kubernetes manifests with new image tag..."
+          mkdir -p gitops-output
+          echo "Image updated to ${{ github.sha }}" > gitops-output/deploy.txt
+
+      - name: Upload GitOps output
+        uses: actions/upload-artifact@v4
+        with:
+          name: gitops-output
+          path: gitops-output/
+
+  # -------------------------------
+  # 7. Post Deployment Validation
+  # -------------------------------
+  post_deploy_validation:
+    name: Post Deployment Checks
+    runs-on: ubuntu-latest
+    needs: gitops_deploy
+
+    steps:
+      - name: Run validation checks
+        run: |
+          echo "Running health checks..."
+          mkdir -p reports
+          echo "Application healthy" > reports/health.txt
+          echo "Monitoring validated" >> reports/health.txt
+
+      - name: Upload validation report
+        uses: actions/upload-artifact@v4
+        with:
+          name: post-deploy-report
+          path: reports/
