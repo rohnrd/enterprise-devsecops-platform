@@ -24,7 +24,7 @@ spec:
         fsGroup: 10001
       containers:
         - name: devsecops-app
-          image: ghcr.io/OWNER/enterprise-devsecops-platform:latest
+          image: ghcr.io/rohnrd/enterprise-devsecops-platform:latest
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 3000
