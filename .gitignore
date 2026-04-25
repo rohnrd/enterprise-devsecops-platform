@@ -1,0 +1,27 @@
+# Node
+node_modules/
+npm-debug.log
+
+# Build
+build/
+dist/
+
+# OS
+.DS_Store
+
+# Logs
+*.log
+
+# Docker
+*.tar
+
+# Terraform
+.terraform/
+*.tfstate
+*.tfstate.backup
+
+# Secrets
+.env
+
+# IDE
+.vscode/

@@ -1,0 +1,14 @@
+{
+  "name": "enterprise-devsecops-platform",
+  "version": "1.0.0",
+  "description": "Sample app for DevSecOps pipeline by Rajamohan",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js"
+  },
+  "author": "Rajamohan",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
