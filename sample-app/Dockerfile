@@ -20,5 +20,8 @@ COPY src ./src
 # Expose port
 EXPOSE 3000
 
+# Run as non-root user
+USER 10001
+
 # Run application
 CMD ["npm", "start"]

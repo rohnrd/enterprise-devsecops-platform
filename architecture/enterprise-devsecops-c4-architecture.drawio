@@ -1,0 +1,242 @@
+<mxfile host="Electron" agent="ChatGPT">
+  <diagram id="enterprise-devsecops-c4" name="Enterprise DevSecOps C4 Architecture">
+    <mxGraphModel dx="1088" dy="638" grid="0" gridSize="10" guides="0" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1700" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" parent="1" style="text;html=1;strokeColor=none;fillColor=none;fontSize=22;fontStyle=1;fontColor=#0b1f4d;" value="Enterprise DevSecOps Platform - C4 Architecture GitHub Actions + OIDC + Azure Key Vault + Nexus + Azure Container Apps + ArgoCD" vertex="1">
+          <mxGeometry height="70" width="1100" x="160" y="20" as="geometry" />
+        </mxCell>
+        <mxCell id="layer0" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f7fb;strokeColor=#9bbcff;fontStyle=1;fontColor=#0b3b82;" value="Level 1 - Context" vertex="1">
+          <mxGeometry height="70" width="150" x="20" y="120" as="geometry" />
+        </mxCell>
+        <mxCell id="layer1" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f7fb;strokeColor=#9bbcff;fontStyle=1;fontColor=#0b3b82;" value="Level 2 - Containers" vertex="1">
+          <mxGeometry height="70" width="150" x="20" y="290" as="geometry" />
+        </mxCell>
+        <mxCell id="layer2" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f7fb;strokeColor=#9bbcff;fontStyle=1;fontColor=#0b3b82;" value="Level 3 - Components" vertex="1">
+          <mxGeometry height="70" width="150" x="20" y="500" as="geometry" />
+        </mxCell>
+        <mxCell id="layer3" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f7fb;strokeColor=#9bbcff;fontStyle=1;fontColor=#0b3b82;" value="Level 4 - Azure Infrastructure" vertex="1">
+          <mxGeometry height="70" width="150" x="20" y="680" as="geometry" />
+        </mxCell>
+        <mxCell id="dev" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#6c9bd2;strokeWidth=2;fontSize=13;" value="Developer Writes code" vertex="1">
+          <mxGeometry height="80" width="130" x="210" y="115" as="geometry" />
+        </mxCell>
+        <mxCell id="repo" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#6c9bd2;strokeWidth=2;fontSize=13;" value="GitHub Repo Source + GitOps manifests" vertex="1">
+          <mxGeometry height="80" width="130" x="360" y="115" as="geometry" />
+        </mxCell>
+        <mxCell id="o97JpWMeV3FEwR1Vhvj--2" edge="1" parent="1" source="gha" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="repo" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="gha" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#6c9bd2;strokeWidth=2;fontSize=13;" value="GitHub Actions CI/CD Pipeline" vertex="1">
+          <mxGeometry height="80" width="130" x="530" y="115" as="geometry" />
+        </mxCell>
+        <mxCell id="sec" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#6c9bd2;strokeWidth=2;fontSize=13;" value="Security Tools SonarQube, Trivy, Checkov, OPA" vertex="1">
+          <mxGeometry height="80" width="130" x="710" y="115" as="geometry" />
+        </mxCell>
+        <mxCell id="kv" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#6c9bd2;strokeWidth=2;fontSize=13;" value="Azure Key Vault Secrets for Nexus/Terraform" vertex="1">
+          <mxGeometry height="80" width="130" x="910" y="115" as="geometry" />
+        </mxCell>
+        <mxCell id="nexus" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#6c9bd2;strokeWidth=2;fontSize=13;" value="Nexus Repository .tgz artifacts" vertex="1">
+          <mxGeometry height="80" width="130" x="1090" y="115" as="geometry" />
+        </mxCell>
+        <mxCell id="aca" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#6c9bd2;strokeWidth=2;fontSize=13;" value="Azure Container Apps Runtime" vertex="1">
+          <mxGeometry height="80" width="130" x="1270" y="115" as="geometry" />
+        </mxCell>
+        <mxCell id="c_repo" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e8f1ff;strokeColor=#2b70c9;strokeWidth=2;" value="1. Source Repository - app code - Terraform - GitOps manifests" vertex="1">
+          <mxGeometry height="120" width="155" x="210" y="285" as="geometry" />
+        </mxCell>
+        <mxCell id="c_ci" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e8f1ff;strokeColor=#2b70c9;strokeWidth=2;" value="2. CI Pipeline - versioning - build - artifact package" vertex="1">
+          <mxGeometry height="120" width="155" x="390" y="285" as="geometry" />
+        </mxCell>
+        <mxCell id="c_scans" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ecf8ea;strokeColor=#4b9b43;strokeWidth=2;" value="3. Security Scans - SonarQube SAST - Trivy SCA/Image - Checkov IaC" vertex="1">
+          <mxGeometry height="120" width="155" x="570" y="285" as="geometry" />
+        </mxCell>
+        <mxCell id="c_policy" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f3edff;strokeColor=#7a55c7;strokeWidth=2;" value="4. Policy Checks - OPA/Rego - Terraform guardrails - deployment rules" vertex="1">
+          <mxGeometry height="120" width="155" x="760" y="285" as="geometry" />
+        </mxCell>
+        <mxCell id="c_art" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff5df;strokeColor=#d99a28;strokeWidth=2;" value="5. Artifact Stores - Nexus .tgz - GHCR image" vertex="1">
+          <mxGeometry height="120" width="155" x="950" y="285" as="geometry" />
+        </mxCell>
+        <mxCell id="c_cd" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff5df;strokeColor=#d99a28;strokeWidth=2;" value="6. GitOps CD - update manifest - ArgoCD sync - approvals" vertex="1">
+          <mxGeometry height="120" width="155" x="1140" y="285" as="geometry" />
+        </mxCell>
+        <mxCell id="c_runtime" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e8f7ff;strokeColor=#2184b8;strokeWidth=2;" value="7. Runtime - Azure Container Apps - revisions - ingress" vertex="1">
+          <mxGeometry height="120" width="155" x="1330" y="285" as="geometry" />
+        </mxCell>
+        <mxCell id="comp_sonar" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ecf8ea;strokeColor=#4b9b43;strokeWidth=2;" value="SonarQube Quality gate" vertex="1">
+          <mxGeometry height="90" width="145" x="390" y="505" as="geometry" />
+        </mxCell>
+        <mxCell id="comp_trivy" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ecf8ea;strokeColor=#4b9b43;strokeWidth=2;" value="Trivy FS + Image scan" vertex="1">
+          <mxGeometry height="90" width="145" x="560" y="505" as="geometry" />
+        </mxCell>
+        <mxCell id="comp_checkov" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ecf8ea;strokeColor=#4b9b43;strokeWidth=2;" value="Checkov Terraform scan" vertex="1">
+          <mxGeometry height="90" width="145" x="730" y="505" as="geometry" />
+        </mxCell>
+        <mxCell id="comp_opa" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f3edff;strokeColor=#7a55c7;strokeWidth=2;" value="OPA Policies Rego rules" vertex="1">
+          <mxGeometry height="90" width="145" x="900" y="505" as="geometry" />
+        </mxCell>
+        <mxCell id="comp_nexus" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff5df;strokeColor=#d99a28;strokeWidth=2;" value="Nexus raw repo devsecops-artifacts" vertex="1">
+          <mxGeometry height="90" width="145" x="1070" y="505" as="geometry" />
+        </mxCell>
+        <mxCell id="comp_ghcr" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff5df;strokeColor=#d99a28;strokeWidth=2;" value="GHCR Versioned images" vertex="1">
+          <mxGeometry height="90" width="145" x="1240" y="505" as="geometry" />
+        </mxCell>
+        <mxCell id="comp_argocd" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff5df;strokeColor=#d99a28;strokeWidth=2;" value="ArgoCD Watches GitOps path" vertex="1">
+          <mxGeometry height="90" width="145" x="1410" y="505" as="geometry" />
+        </mxCell>
+        <mxCell id="i_vnet" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8fbff;strokeColor=#8bb4e8;strokeWidth=2;" value="Azure VNet vnet-devsecops-platform" vertex="1">
+          <mxGeometry height="90" width="165" x="210" y="680" as="geometry" />
+        </mxCell>
+        <mxCell id="i_runner" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8fbff;strokeColor=#8bb4e8;strokeWidth=2;" value="Self-hosted Runner VM Inside VNet" vertex="1">
+          <mxGeometry height="90" width="165" x="410" y="680" as="geometry" />
+        </mxCell>
+        <mxCell id="i_nexus" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8fbff;strokeColor=#8bb4e8;strokeWidth=2;" value="Nexus Linux VM Private IP only" vertex="1">
+          <mxGeometry height="90" width="165" x="610" y="680" as="geometry" />
+        </mxCell>
+        <mxCell id="o97JpWMeV3FEwR1Vhvj--1" edge="1" parent="1" source="i_kv" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="i_nexus" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="i_kv" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8fbff;strokeColor=#8bb4e8;strokeWidth=2;" value="Azure Key Vault Nexus/Terraform secrets" vertex="1">
+          <mxGeometry height="90" width="165" x="810" y="680" as="geometry" />
+        </mxCell>
+        <mxCell id="i_aca" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8fbff;strokeColor=#8bb4e8;strokeWidth=2;" value="Container Apps Environment Private network integration" vertex="1">
+          <mxGeometry height="90" width="165" x="1010" y="680" as="geometry" />
+        </mxCell>
+        <mxCell id="i_law" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8fbff;strokeColor=#8bb4e8;strokeWidth=2;" value="Log Analytics Monitoring" vertex="1">
+          <mxGeometry height="90" width="165" x="1210" y="680" as="geometry" />
+        </mxCell>
+        <mxCell id="i_oidc" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8fbff;strokeColor=#8bb4e8;strokeWidth=2;" value="Azure AD OIDC Federated credential" vertex="1">
+          <mxGeometry height="90" width="165" x="1410" y="680" as="geometry" />
+        </mxCell>
+        <mxCell id="e0" edge="1" parent="1" source="dev" style="endArrow=block;html=1;rounded=0;strokeWidth=2;strokeColor=#333333;entryX=0.305;entryY=1.012;entryDx=0;entryDy=0;entryPerimeter=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" target="repo" value="commit / PR">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="275" y="220" />
+              <mxPoint x="350" y="220" />
+              <mxPoint x="400" y="220" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e1" edge="1" parent="1" style="endArrow=block;html=1;rounded=0;strokeWidth=2;strokeColor=#333333;entryX=0.25;entryY=1;entryDx=0;entryDy=0;" target="gha" value="trigger">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="440" y="220" />
+              <mxPoint x="500" y="220" />
+              <mxPoint x="563" y="220" />
+            </Array>
+            <mxPoint x="440" y="192" as="sourcePoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e2" edge="1" parent="1" style="endArrow=block;html=1;rounded=0;strokeWidth=2;strokeColor=#333333;entryX=0.305;entryY=0.984;entryDx=0;entryDy=0;entryPerimeter=0;" target="sec" value="scan">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="630" y="220" />
+              <mxPoint x="680" y="220" />
+              <mxPoint x="750" y="220" />
+            </Array>
+            <mxPoint x="630" y="194" as="sourcePoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e3" edge="1" parent="1" source="sec" style="endArrow=block;html=1;rounded=0;strokeWidth=2;strokeColor=#333333;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.311;entryY=1.012;entryDx=0;entryDy=0;entryPerimeter=0;" target="kv" value="read secrets after OIDC">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="775" y="220" />
+              <mxPoint x="950" y="220" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e4" edge="1" parent="1" source="kv" style="endArrow=block;html=1;rounded=0;strokeWidth=2;strokeColor=#333333;exitX=0.69;exitY=0.993;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" target="nexus" value="Nexus credentials">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1000" y="220" />
+              <mxPoint x="1070" y="220" />
+              <mxPoint x="1155" y="220" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e5" edge="1" parent="1" source="nexus" style="endArrow=block;html=1;rounded=0;strokeWidth=2;strokeColor=#333333;exitX=0.684;exitY=0.984;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.299;entryY=0.984;entryDx=0;entryDy=0;entryPerimeter=0;" target="aca" value="artifact traceability">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1180" y="220" />
+              <mxPoint x="1240" y="220" />
+              <mxPoint x="1310" y="220" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e6" edge="1" parent="1" source="gha" style="endArrow=block;html=1;rounded=0;strokeWidth=2;strokeColor=#333333;exitX=0.554;exitY=0.993;exitDx=0;exitDy=0;exitPerimeter=0;" value="update GitOps manifest">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="600" y="240" />
+              <mxPoint x="1200" y="240" />
+            </Array>
+            <mxPoint x="1200" y="285" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e7" edge="1" parent="1" source="c_cd" style="endArrow=block;html=1;rounded=0;strokeWidth=2;strokeColor=#333333;exitX=0.713;exitY=0.015;exitDx=0;exitDy=0;exitPerimeter=0;" target="aca" value="deploy">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1250" y="240" />
+              <mxPoint x="1335" y="240" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e8" edge="1" parent="1" source="c_repo" style="endArrow=block;html=1;rounded=0;strokeWidth=2;strokeColor=#333333;" target="c_ci" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e9" edge="1" parent="1" source="c_ci" style="endArrow=block;html=1;rounded=0;strokeWidth=2;strokeColor=#333333;" target="c_scans" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e10" edge="1" parent="1" source="c_scans" style="endArrow=block;html=1;rounded=0;strokeWidth=2;strokeColor=#333333;" target="c_policy" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e11" edge="1" parent="1" source="c_policy" style="endArrow=block;html=1;rounded=0;strokeWidth=2;strokeColor=#333333;" target="c_art" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e12" edge="1" parent="1" source="c_art" style="endArrow=block;html=1;rounded=0;strokeWidth=2;strokeColor=#333333;" target="c_cd" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e13" edge="1" parent="1" source="c_cd" style="endArrow=block;html=1;rounded=0;strokeWidth=2;strokeColor=#333333;" target="c_runtime" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e14" edge="1" parent="1" source="i_runner" style="endArrow=block;html=1;rounded=0;strokeWidth=2;strokeColor=#333333;" target="i_nexus" value="private upload 8081">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="590" y="750" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e15" edge="1" parent="1" source="i_runner" style="endArrow=block;html=1;rounded=0;strokeWidth=2;strokeColor=#333333;exitX=0.66;exitY=1.015;exitDx=0;exitDy=0;exitPerimeter=0;" target="i_kv" value="read secrets">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="519" y="803" />
+              <mxPoint x="893" y="800" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e16" edge="1" parent="1" source="i_runner" style="endArrow=block;html=1;rounded=0;strokeWidth=2;strokeColor=#333333;entryX=0.436;entryY=-0.01;entryDx=0;entryDy=0;entryPerimeter=0;" target="i_aca" value="terraform deploy">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="493" y="640" />
+              <mxPoint x="1080" y="640" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e17" edge="1" parent="1" source="i_oidc" style="endArrow=block;html=1;rounded=0;strokeWidth=2;strokeColor=#333333;" target="i_runner" value="auth context">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1493" y="840" />
+              <mxPoint x="490" y="840" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="note" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;" value="Security Notes: - GitHub uses OIDC, no Azure client secret. - Nexus is private in Azure VNet. - Self-hosted runner reaches Nexus private IP. - Key Vault stores Nexus credentials. - ArgoCD handles GitOps deployment. - Azure Container Apps replaces Kubernetes/AKS runtime." vertex="1">
+          <mxGeometry height="145" width="560" x="210" y="880" as="geometry" />
+        </mxCell>
+        <mxCell id="legend" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;" value="Release Flow: main = stable version (1.x) develop = beta version (1.x-beta) Artifacts = .tgz in Nexus Images = GHCR with same version tag" vertex="1">
+          <mxGeometry height="145" width="420" x="810" y="880" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

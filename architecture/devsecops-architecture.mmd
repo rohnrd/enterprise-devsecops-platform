@@ -1,0 +1,76 @@
+%%{init: {"flowchart": {"curve": "linear"}, "theme": "base"}}%%
+flowchart LR
+
+  subgraph devops [Developer & Source]
+    dev["Developer\n(Commit / PR)"]
+    repo["GitHub Repository\n(code, IaC, manifests)"]
+  end
+
+  subgraph ci [CI / Scanning]
+    ciAction["CI: GitHub Actions"]
+    sast["SAST\n(Semgrep / CodeQL)"]
+    sca["SCA\n(Dependabot / Snyk / Trivy)"]
+    iacScan["IaC Scan\n(Checkov / tfsec)"]
+    build["Build\n(artifact & image)"]
+    keyVault["Azure Key Vault\n(secrets via OIDC)"]
+  end
+
+  subgraph registry [Artifact Repos]
+    nexus["Nexus\n(artifacts .tgz)"]
+    ghcr["GHCR / Container Registry\n(images)"]
+  end
+
+  subgraph policy_and_approval [Policy & Release]
+    opa["Policy Engine\n(OPA / Rego)"]
+    approve["Approval Gate\n(Environments / Reviewers)"]
+  end
+
+  subgraph gitops [GitOps & Runtime]
+    gitopsRepo["GitOps Repo\n(manifests)"]
+    argo["ArgoCD\n(GitOps controller)"]
+    runtime["Azure Container Apps / Kubernetes\n(runtime)"]
+    observ["Observability\n(Prometheus / Grafana / Loki)"]
+  end
+
+  subgraph infra [Network & Runners]
+    vnet["VNet: vnet-devsecops-platform"]
+    runner["Self-hosted Runner\n(optional, inside VNet)"]
+    nexusVM["Nexus VM\n(private IP)"]
+  end
+
+  %% Primary flow
+  dev --> repo
+  repo --> ciAction
+
+  ciAction --> sast
+  ciAction --> sca
+  ciAction --> iacScan
+  ciAction --> build
+  ciAction -->|fetch secrets| keyVault
+
+  build --> nexus
+  build --> ghcr
+
+  nexus --> gitopsRepo
+  ghcr --> gitopsRepo
+
+  iacScan --> opa
+  sast --> opa
+  sca --> opa
+
+  opa --> approve
+  approve --> gitopsRepo
+
+  gitopsRepo --> argo
+  argo --> runtime
+  runtime --> observ
+
+  %% Infra connections
+  runner -->|access| nexusVM
+  runner -->|exec pipelines| ciAction
+  nexusVM --> nexus
+  keyVault --> ciAction
+  keyVault --> argo
+
+  classDef infraStyle fill:#f3f6fb,stroke:#9fb3d4;
+  class infra,registry infraStyle;

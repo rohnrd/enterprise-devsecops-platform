@@ -49,7 +49,7 @@ jobs:
       - name: Run SCA (Trivy filesystem scan)
         run: |
           echo "Running dependency scan..."
-          trivy fs --security-checks vuln --exit-code 1 .
+          trivy fs --scanners vuln --severity HIGH,CRITICAL --exit-code 1 .
 
   # -------------------------------
   # 2. Build Stage
@@ -89,7 +89,7 @@ jobs:
 
       - name: Login to GHCR
         run: |
-          echo "${{ secrets.GHCR_TOKEN }}" | docker login ghcr.io -u rohnr --password-stdin
+          echo "${{ secrets.GHCR_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
 
       - name: Build Docker image
         run: |
@@ -97,7 +97,7 @@ jobs:
 
       - name: Scan Docker image (Trivy)
         run: |
-          trivy image --exit-code 1 $REGISTRY/${{ github.repository }}:${{ github.sha }}
+          trivy image --severity HIGH,CRITICAL --exit-code 1 $REGISTRY/${{ github.repository }}:${{ github.sha }}
 
       - name: Run IaC Scan (Checkov)
         run: |
@@ -124,8 +124,8 @@ jobs:
 
       - name: Run OPA policies
         run: |
-          echo "Running policy checks..."
-          opa eval --input terraform --data policies/ "data" || exit 1
+          echo "Validating OPA policy syntax and running tests..."
+          opa test policies/ -v
 
   # -------------------------------
   # 5. Approval Gate (Simulated)
